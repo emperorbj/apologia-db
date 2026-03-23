@@ -12,8 +12,8 @@ const router = express.Router();
 router.post('/signup', signup);
 router.post('/login', login);
 
-/** All signed-up users (username + email). Requires Bearer token. */
-router.get('/users', protect, getAllUsers);
+/** All signed-up users (username + email). Public for MVP. */
+router.get('/users', getAllUsers);
 
 /** Current user profile: downloads + recent watched videos */
 router.get('/profile', protect, getMyProfile);

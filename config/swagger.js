@@ -119,11 +119,9 @@ const swaggerDefinition = {
     "/api/auth/users": {
       get: {
         tags: ["Auth"],
-        summary: "List all users (username + email)",
-        security: [{ bearerAuth: [] }],
+        summary: "List all users (username + email) — public",
         responses: {
-          200: { description: "User list returned" },
-          401: { description: "Unauthorized" }
+          200: { description: "User list returned" }
         }
       }
     },
