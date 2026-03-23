@@ -13,7 +13,7 @@ import swaggerDefinition from './config/swagger.js';
 
 
 dotenv.config();
-const port = 3000
+const port = Number(process.env.PORT) || 3000;
 const app = express();
 
 
