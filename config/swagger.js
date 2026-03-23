@@ -62,9 +62,7 @@ const swaggerDefinition = {
         type: "object",
         required: ["question"],
         properties: {
-          question: { type: "string" },
-          conversationId: { type: "string" },
-          conversationTitle: { type: "string" }
+          question: { type: "string" }
         }
       },
       RecordDownloadRequest: {
@@ -273,7 +271,7 @@ const swaggerDefinition = {
     "/api/ai/apologist": {
       post: {
         tags: ["AI"],
-        summary: "Ask AI apologist and save chat",
+        summary: "Ask AI apologist (stateless MVP — no chat history stored)",
         security: [{ bearerAuth: [] }],
         requestBody: {
           required: true,
@@ -282,42 +280,6 @@ const swaggerDefinition = {
           }
         },
         responses: { 200: { description: "AI answer returned" }, 401: { description: "Unauthorized" } }
-      }
-    },
-    "/api/ai/conversations": {
-      get: {
-        tags: ["AI"],
-        summary: "List user conversation summaries",
-        security: [{ bearerAuth: [] }],
-        responses: { 200: { description: "Conversations returned" } }
-      }
-    },
-    "/api/ai/history": {
-      get: {
-        tags: ["AI"],
-        summary: "Get paginated chat history",
-        security: [{ bearerAuth: [] }],
-        parameters: [
-          { in: "query", name: "page", schema: { type: "integer", default: 1 } },
-          { in: "query", name: "limit", schema: { type: "integer", default: 20 } },
-          { in: "query", name: "conversationId", schema: { type: "string" } }
-        ],
-        responses: { 200: { description: "History returned" } }
-      },
-      delete: {
-        tags: ["AI"],
-        summary: "Clear user chat history",
-        security: [{ bearerAuth: [] }],
-        responses: { 200: { description: "History cleared" } }
-      }
-    },
-    "/api/ai/history/{chatId}": {
-      delete: {
-        tags: ["AI"],
-        summary: "Delete one chat message",
-        security: [{ bearerAuth: [] }],
-        parameters: [{ in: "path", name: "chatId", required: true, schema: { type: "string" } }],
-        responses: { 200: { description: "Chat deleted" }, 404: { description: "Not found" } }
       }
     }
   }
