@@ -14,6 +14,17 @@ const VideoSchema = new mongoose.Schema({
         enum:["new","old"]
         
     },
+    category: {
+      type: String,
+      enum: [
+        "theology",
+        "textual criticism",
+        "defense for God",
+        "islam apologetics",
+        "defense for Jesus"
+      ],
+      required: true
+    },
     description: String, // Optional extended content
     thumbnailUrl: String, // For mobile preview
     createdAt: {

@@ -11,7 +11,6 @@
   "author": "bolaji",
   "license": "ISC",
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "cron": "^4.3.0",
@@ -20,6 +19,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.3",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "openai": "^6.8.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }

@@ -5,13 +5,15 @@ import bcrypt from "bcryptjs";
 
 
 export const signup = async (request,response)=> {
-    const {name,email,phone,password} = request.body;
+    const {username,email,password} = request.body;
     try{
-        if(!name || !email || !phone || !password ) {
+        if(!username || !email || !password ) {
             return response.status(401).json({message:'All fields are required'})
         }
 
-        const userExists = await User.findOne({email})
+        const userExists = await User.findOne({
+            $or: [{ email }, { username }]
+        })
 
         if(userExists){
             return response.status(409).json({message:"User already exists"})
@@ -20,12 +22,11 @@ export const signup = async (request,response)=> {
 
         const hashedPassword = await bcrypt.hash(password,10)
 
-        const profileImage = `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`
+        const profileImage = `https://api.dicebear.com/7.x/avataaars/svg?seed=${username}`
 
         const user = new User({
-            name,
+            username,
             email,
-            phone,
             password:hashedPassword,
             profileImage
         })
@@ -36,9 +37,8 @@ export const signup = async (request,response)=> {
 
         return response.status(201).json({success:true,token,user:{
             id:user._id,
-            name:user.name,
+            username:user.username,
             email:user.email,
-            phone:user.phone,
             imageURL:user.profileImage,
             createdAt:user.createdAt
         }})
@@ -78,9 +78,8 @@ export const login = async (request,response)=> {
             token,
             user:{
             id:user._id,
-            name:user.name,
+            username:user.username,
             email:user.email,
-            phone:user.phone,
             imageURL:user.profileImage,
             createdAt:user.createdAt
             }

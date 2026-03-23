@@ -2,12 +2,14 @@ import express from 'express';
 
 import cors from 'cors';
 import dotenv from 'dotenv';
+import swaggerUi from "swagger-ui-express";
 import { connectDB } from './config/connectDB.js';
 import authRouter from './routes/user.route.js'
-import blogRouter from './routes/blog.route.js';
+import ebookRouter from './routes/ebook.route.js';
 import videoRouter from './routes/video.route.js'
 import jobs from  './lib/cron.js'
 import chatRouter from './routes/chat.route.js';
+import swaggerDefinition from './config/swagger.js';
 
 
 dotenv.config();
@@ -23,10 +25,11 @@ app.use(cors());
 app.use(express.json());
 
 // routes
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDefinition));
 app.use('/api/auth',authRouter);
-app.use('/api/blogs',blogRouter);
+app.use('/api/ebooks',ebookRouter);
 app.use('/api/videos',videoRouter)
-app.use('/api/chat',chatRouter);
+app.use('/api/ai',chatRouter);
 
 // CONNECTION WITH MONGODB
 

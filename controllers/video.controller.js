@@ -2,9 +2,9 @@ import { Video } from "../models/video.model.js"
 
 
 export const addVideos = async (request,response)=>{
-    const {title,youtubeUrl,latest,description,thumbnailUrl} = request.body
+    const {title,youtubeUrl,latest,description,thumbnailUrl,category} = request.body
     try {
-        if(!title || !youtubeUrl || !latest || !description || !thumbnailUrl){
+        if(!title || !youtubeUrl || !latest || !description || !thumbnailUrl || !category){
             return response.status(409).json({message:"All fields are required"})
         }
 
@@ -12,6 +12,7 @@ export const addVideos = async (request,response)=>{
             title,
             youtubeUrl,
             latest,
+            category,
             description,
             thumbnailUrl
         })
@@ -24,11 +25,17 @@ export const addVideos = async (request,response)=>{
 }
 
 export const getAllVideos = async (request,response)=>{
-    const {search,title,latest,page=1,limit=6} = request.query
+    const {search,title,latest,category,page=1,limit=6} = request.query
     try {
         const queryObject = {}
         if(latest){
             queryObject.latest = {$regex:latest,$options:'i'}
+        }
+        if(title){
+            queryObject.title = {$regex:title,$options:'i'}
+        }
+        if(category){
+            queryObject.category = {$regex:category,$options:'i'}
         }
         if(search){
             queryObject.$or = [
@@ -49,7 +56,7 @@ export const getAllVideos = async (request,response)=>{
             return response.status(404).json({message:"no videos found"})
         }
 
-        const totalVideos = await Video.countDocuments()
+        const totalVideos = await Video.countDocuments(queryObject)
         const totalPage = Math.ceil(totalVideos/parseInt(limit))
 
         return response.status(200).json({
